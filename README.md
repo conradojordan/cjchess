@@ -1,2 +1,4 @@
-# cjchess
-Chess game made in Python
+# CJChess
+
+Chess engine implemented in GO
+
