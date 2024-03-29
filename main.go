@@ -1,8 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"github.com/conradojordan/cjchess/board"
+)
 
 func main() {
-	fmt.Println("Hello world!")
+	b := board.NewBoard()
 
+	b.StartPosition()
+	b.PrintBoard()
 }
