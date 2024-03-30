@@ -24,27 +24,31 @@ type Board struct {
 	whites    [6]*uint64
 	allPieces [12]*uint64
 
-	whiteToMove     bool
-	whiteCastle     bool
-	blackCastle     bool
-	numMoves        uint16
-	reversibleMoves uint8
+	whiteToMove bool
+
+	whiteCastle bool
+	blackCastle bool
+
+	enPassantSquare uint8
+
+	reversibleSemiMoves uint8
+	fullMoves           uint16
 }
 
 func (b *Board) StartPosition() {
-	b.wpawns = 0x000000000000ff00
-	b.wbishops = 0x0000000000000024
-	b.wknights = 0x0000000000000042
-	b.wrooks = 0x0000000000000081
-	b.wqueens = 0x0000000000000010
-	b.wking = 0x0000000000000008
+	b.wpawns = 0x0000_0000_0000_ff00
+	b.wbishops = 0x0000_0000_0000_0024
+	b.wknights = 0x0000_0000_0000_0042
+	b.wrooks = 0x0000_0000_0000_0081
+	b.wqueens = 0x0000_0000_0000_0010
+	b.wking = 0x0000_0000_0000_0008
 
-	b.bpawns = 0x00ff000000000000
-	b.bbishops = 0x2400000000000000
-	b.bknights = 0x4200000000000000
-	b.brooks = 0x8100000000000000
-	b.bqueens = 0x1000000000000000
-	b.bking = 0x0800000000000000
+	b.bpawns = 0x00ff_0000_0000_0000
+	b.bbishops = 0x2400_0000_0000_0000
+	b.bknights = 0x4200_0000_0000_0000
+	b.brooks = 0x8100_0000_0000_0000
+	b.bqueens = 0x1000_0000_0000_0000
+	b.bking = 0x0800_0000_0000_0000
 }
 
 func (b *Board) PrintBoard() {
