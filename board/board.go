@@ -6,55 +6,55 @@ import (
 )
 
 type Board struct {
-	wpawns   uint64
-	wbishops uint64
-	wknights uint64
-	wrooks   uint64
-	wqueens  uint64
-	wking    uint64
+	Wpawns   uint64
+	Wbishops uint64
+	Wknights uint64
+	Wrooks   uint64
+	Wqueens  uint64
+	Wking    uint64
 
-	bpawns   uint64
-	bbishops uint64
-	bknights uint64
-	brooks   uint64
-	bqueens  uint64
-	bking    uint64
+	Bpawns   uint64
+	Bbishops uint64
+	Bknights uint64
+	Brooks   uint64
+	Bqueens  uint64
+	Bking    uint64
 
-	blacks    [6]*uint64
-	whites    [6]*uint64
-	allPieces [12]*uint64
+	Blacks    [6]*uint64
+	Whites    [6]*uint64
+	AllPieces [12]*uint64
 
-	whiteToMove bool
+	WhiteToMove bool
 
-	whiteCastle bool
-	blackCastle bool
+	WhiteCastle bool
+	BlackCastle bool
 
-	enPassantSquare uint8
+	EnPassantSquare uint8
 
-	reversibleSemiMoves uint8
-	fullMoves           uint16
+	ReversibleSemiMoves uint8
+	FullMoves           uint16
 }
 
 func (b *Board) StartPosition() {
-	b.wpawns = 0x0000_0000_0000_ff00
-	b.wbishops = 0x0000_0000_0000_0024
-	b.wknights = 0x0000_0000_0000_0042
-	b.wrooks = 0x0000_0000_0000_0081
-	b.wqueens = 0x0000_0000_0000_0010
-	b.wking = 0x0000_0000_0000_0008
+	b.Wpawns = 0x0000_0000_0000_ff00
+	b.Wbishops = 0x0000_0000_0000_0024
+	b.Wknights = 0x0000_0000_0000_0042
+	b.Wrooks = 0x0000_0000_0000_0081
+	b.Wqueens = 0x0000_0000_0000_0010
+	b.Wking = 0x0000_0000_0000_0008
 
-	b.bpawns = 0x00ff_0000_0000_0000
-	b.bbishops = 0x2400_0000_0000_0000
-	b.bknights = 0x4200_0000_0000_0000
-	b.brooks = 0x8100_0000_0000_0000
-	b.bqueens = 0x1000_0000_0000_0000
-	b.bking = 0x0800_0000_0000_0000
+	b.Bpawns = 0x00ff_0000_0000_0000
+	b.Bbishops = 0x2400_0000_0000_0000
+	b.Bknights = 0x4200_0000_0000_0000
+	b.Brooks = 0x8100_0000_0000_0000
+	b.Bqueens = 0x1000_0000_0000_0000
+	b.Bking = 0x0800_0000_0000_0000
 }
 
 func (b *Board) PrintBoard() {
 	fmt.Println("Board:")
 	var pieces uint64
-	for _, p := range b.allPieces {
+	for _, p := range b.AllPieces {
 		pieces ^= *p
 	}
 
@@ -72,13 +72,13 @@ func PrintUint64(value uint64) {
 func NewBoard() *Board {
 	b := Board{}
 
-	b.blacks = [6]*uint64{&b.bpawns, &b.bbishops, &b.bknights, &b.brooks, &b.bqueens, &b.bking}
-	b.whites = [6]*uint64{&b.wpawns, &b.wbishops, &b.wknights, &b.wrooks, &b.wqueens, &b.wking}
-	b.allPieces = [12]*uint64{&b.bpawns, &b.bbishops, &b.bknights, &b.brooks, &b.bqueens, &b.bking,
-		&b.wpawns, &b.wbishops, &b.wknights, &b.wrooks, &b.wqueens, &b.wking}
-	b.whiteToMove = true
-	b.whiteCastle = true
-	b.blackCastle = true
+	b.Blacks = [6]*uint64{&b.Bpawns, &b.Bbishops, &b.Bknights, &b.Brooks, &b.Bqueens, &b.Bking}
+	b.Whites = [6]*uint64{&b.Wpawns, &b.Wbishops, &b.Wknights, &b.Wrooks, &b.Wqueens, &b.Wking}
+	b.AllPieces = [12]*uint64{&b.Bpawns, &b.Bbishops, &b.Bknights, &b.Brooks, &b.Bqueens, &b.Bking,
+		&b.Wpawns, &b.Wbishops, &b.Wknights, &b.Wrooks, &b.Wqueens, &b.Wking}
+	b.WhiteToMove = true
+	b.WhiteCastle = true
+	b.BlackCastle = true
 
 	return &b
 }

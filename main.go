@@ -9,4 +9,8 @@ func main() {
 
 	b.StartPosition()
 	b.PrintBoard()
+
+	// board.PrintUint64(b.Wpawns)
+	// board.PrintUint64(b.Brooks)
+
 }
