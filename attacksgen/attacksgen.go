@@ -2,7 +2,7 @@ package attacksgen
 
 func GenerateRookAttacks() [64]uint64 {
 	var result [64]uint64
-	var magicNumber uint64 = 0x0000_0000_0000_0101
+	var magicNumber uint64 = 0x101
 	var current uint64 = 0x0101_0101_0101_01fe
 
 	for i := 0; i < 8; i++ {
@@ -25,16 +25,87 @@ func GenerateBishopAttacks() [64]uint64 {
 	for i := 0; i < 8; i++ {
 		for j := 0; j < 8; j++ {
 			result[i*8+j] = current
-			magicNumber = 0x0000_0000_0000_0001 << (((i+j)*8)%56 + 8) & 0xffff_ffff_ffff_ffff
-			magicNumber ^= 0x0000_0000_0000_0001 << ((64 + 8*i - 8*j) % 72) & 0xffff_ffff_ffff_ffff
+			magicNumber = 1 << (((i+j)*8)%56 + 8) & 0xffff_ffff_ffff_ffff
+			magicNumber ^= 1 << ((64 + 8*i - 8*j) % 72) & 0xffff_ffff_ffff_ffff
 
 			if j == 7 {
 				magicNumber2 = (magicNumber2 << 8) & 0xffff_ffff_ffff_ffff
-				magicNumber2 = magicNumber2 ^ ((0x0000_0000_0000_0100 >> i) & 0x0000_0000_0000_00ff)
-				magicNumber2 = magicNumber2 ^ ((0x0000_0000_0000_0002 << i) & 0x0000_0000_0000_00ff)
+				magicNumber2 = magicNumber2 ^ ((0x100 >> i) & 0xff)
+				magicNumber2 = magicNumber2 ^ ((0x2 << i) & 0xff)
 				magicNumber = magicNumber2
 			}
 			current = ((current & 0x7fff_ffff_ffff_ffff) << 1) ^ magicNumber
+		}
+	}
+	return result
+}
+
+func GenerateKnightAttacks() [64]uint64 {
+	// - - - - - - - -
+	// - a - b - - - -
+	// c - - - d - - -
+	// - - x - - - - -
+	// e - - - f - - -
+	// - g - h - - - -
+	// - - - - - - - -
+	// - - - - - - - -
+	var result [64]uint64
+	var current uint64
+	var a, b, c, d, e, f, g, h uint64
+
+	for i := 0; i < 8; i++ {
+		for j := 0; j < 8; j++ {
+			current = 0
+
+			a = 1 << (17 + (i*8 + j))
+			if j == 7 || i > 5 {
+				a = 0
+			}
+			current ^= a
+
+			b = 1 << (15 + (i*8 + j))
+			if j == 0 || i > 5 {
+				b = 0
+			}
+			current ^= b
+
+			c = 1 << (10 + (i*8 + j))
+			if j > 5 || i == 7 {
+				c = 0
+			}
+			current ^= c
+
+			d = 1 << (6 + (i*8 + j))
+			if j < 2 || i == 7 {
+				d = 0
+			}
+			current ^= d
+
+			e = (1 << 63) >> (69 - (i*8 + j))
+			if j > 5 || i == 0 {
+				e = 0
+			}
+			current ^= e
+
+			f = (1 << 63) >> (73 - (i*8 + j))
+			if j < 2 || i == 0 {
+				f = 0
+			}
+			current ^= f
+
+			g = (1 << 63) >> (78 - (i*8 + j))
+			if i < 2 || j == 7 {
+				g = 0
+			}
+			current ^= g
+
+			h = (1 << 63) >> (80 - (i*8 + j))
+			if i < 2 || j == 0 {
+				h = 0
+			}
+			current ^= h
+
+			result[i*8+j] = current
 		}
 	}
 	return result
