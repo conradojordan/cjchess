@@ -10,7 +10,13 @@ func main() {
 	b.StartPosition()
 	b.PrintBoard()
 
-	// board.PrintUint64(b.Wpawns)
-	// board.PrintUint64(b.Brooks)
+	// board.PrintBitboard(b.Wpawns)
+	// board.PrintBitboard(b.Brooks)
+
+	// a := attacksgen.GenerateKnightAttacks()
+
+	// for i := 0; i < 64; i += 4 {
+	// 	fmt.Printf("	0x%016x, 0x%016x, 0x%016x, 0x%016x,\n", a[i], a[i+1], a[i+2], a[i+3])
+	// }
 
 }
