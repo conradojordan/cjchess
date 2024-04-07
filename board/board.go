@@ -58,10 +58,10 @@ func (b *Board) PrintBoard() {
 		pieces ^= *p
 	}
 
-	PrintUint64(pieces)
+	PrintBitboard(pieces)
 }
 
-func PrintUint64(value uint64) {
+func PrintBitboard(value uint64) {
 	for i := 1; i < 9; i++ {
 		binary := int64(value >> (64 - i*8))
 		fmt.Printf("%08s\n", strconv.FormatInt(binary&0xff, 2))
