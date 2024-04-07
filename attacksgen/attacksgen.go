@@ -110,3 +110,16 @@ func GenerateKnightAttacks() [64]uint64 {
 	}
 	return result
 }
+
+func GenerateQueenAttacks() [64]uint64 {
+	var result [64]uint64
+
+	r := GenerateRookAttacks()
+	b := GenerateBishopAttacks()
+
+	for i := 0; i < 64; i++ {
+		result[i] = r[i] ^ b[i]
+	}
+
+	return result
+}
