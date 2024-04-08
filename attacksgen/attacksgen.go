@@ -123,3 +123,53 @@ func GenerateQueenAttacks() [64]uint64 {
 
 	return result
 }
+
+func GenerateWPawnAttacks() [64]uint64 {
+	var current, a, b uint64
+	var results [64]uint64
+
+	for i := 0; i < 64; i++ {
+		current = 0
+
+		a = 1 << (9 + i)
+		if i%8 == 7 || i > 56 {
+			a = 0
+		}
+		current ^= a
+
+		b = 1 << (7 + i)
+		if i%8 == 0 || i > 56 {
+			b = 0
+		}
+		current ^= b
+
+		results[i] = current
+	}
+
+	return results
+}
+
+func GenerateBPawnAttacks() [64]uint64 {
+	var current, a, b uint64
+	var results [64]uint64
+
+	for i := 0; i < 64; i++ {
+		current = 0
+
+		a = (1 << 63) >> (70 - i)
+		if i < 8 || i%8 == 7 {
+			a = 0
+		}
+		current ^= a
+
+		b = (1 << 63) >> (72 - i)
+		if i < 8 || i%8 == 0 {
+			b = 0
+		}
+		current ^= b
+
+		results[i] = current
+	}
+
+	return results
+}
