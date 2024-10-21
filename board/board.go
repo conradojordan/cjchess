@@ -3,36 +3,64 @@ package board
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
+type Bitboard uint64
+
+func (b Bitboard) String() string {
+	str := strconv.FormatUint(uint64(b), 2)
+	padded_str := fmt.Sprintf("%064s", str)
+
+	var result strings.Builder
+
+	for i := 0; i < 8; i++ {
+		result.WriteString(padded_str[i*8 : i*8+8])
+		result.WriteString("\n")
+	}
+	return result.String()
+}
+
 type Board struct {
-	Wpawns   uint64
-	Wbishops uint64
-	Wknights uint64
-	Wrooks   uint64
-	Wqueens  uint64
-	Wking    uint64
+	Wpawns   Bitboard
+	Wbishops Bitboard
+	Wknights Bitboard
+	Wrooks   Bitboard
+	Wqueens  Bitboard
+	Wking    Bitboard
 
-	Bpawns   uint64
-	Bbishops uint64
-	Bknights uint64
-	Brooks   uint64
-	Bqueens  uint64
-	Bking    uint64
+	Bpawns   Bitboard
+	Bbishops Bitboard
+	Bknights Bitboard
+	Brooks   Bitboard
+	Bqueens  Bitboard
+	Bking    Bitboard
 
-	Blacks    [6]*uint64
-	Whites    [6]*uint64
-	AllPieces [12]*uint64
+	Blacks    [6]*Bitboard
+	Whites    [6]*Bitboard
+	AllPieces [12]*Bitboard
 
 	WhiteToMove bool
 
-	WhiteCastle bool
-	BlackCastle bool
+	WhiteCastleQueen bool
+	WhiteCastleKing  bool
+	BlackCastleQueen bool
+	BlackCastleKing  bool
 
-	EnPassantSquare uint8
+	EnPassantSquare Bitboard
 
 	ReversibleSemiMoves uint8
 	FullMoves           uint16
+}
+
+func (b Board) String() string {
+	var pieces Bitboard
+
+	for _, p := range b.AllPieces {
+		pieces ^= *p
+	}
+
+	return pieces.String()
 }
 
 func (b *Board) StartPosition() {
@@ -49,36 +77,32 @@ func (b *Board) StartPosition() {
 	b.Brooks = 0x8100_0000_0000_0000
 	b.Bqueens = 0x1000_0000_0000_0000
 	b.Bking = 0x0800_0000_0000_0000
-}
 
-func (b *Board) PrintBoard() {
-	fmt.Println("Board:")
-	var pieces uint64
-	for _, p := range b.AllPieces {
-		pieces ^= *p
-	}
+	b.WhiteToMove = true
 
-	PrintBitboard(pieces)
-}
+	b.WhiteCastleQueen = true
+	b.WhiteCastleKing = true
+	b.BlackCastleQueen = true
+	b.BlackCastleKing = true
 
-func PrintBitboard(value uint64) {
-	for i := 1; i < 9; i++ {
-		binary := int64(value >> (64 - i*8))
-		fmt.Printf("%08s\n", strconv.FormatInt(binary&0xff, 2))
-	}
-	fmt.Println()
+	b.EnPassantSquare = 0x0
+	b.ReversibleSemiMoves = 0
+	b.FullMoves = 0
 }
 
 func NewBoard() *Board {
 	b := Board{}
 
-	b.Blacks = [6]*uint64{&b.Bpawns, &b.Bbishops, &b.Bknights, &b.Brooks, &b.Bqueens, &b.Bking}
-	b.Whites = [6]*uint64{&b.Wpawns, &b.Wbishops, &b.Wknights, &b.Wrooks, &b.Wqueens, &b.Wking}
-	b.AllPieces = [12]*uint64{&b.Bpawns, &b.Bbishops, &b.Bknights, &b.Brooks, &b.Bqueens, &b.Bking,
-		&b.Wpawns, &b.Wbishops, &b.Wknights, &b.Wrooks, &b.Wqueens, &b.Wking}
-	b.WhiteToMove = true
-	b.WhiteCastle = true
-	b.BlackCastle = true
+	b.Blacks = [6]*Bitboard{&b.Bpawns, &b.Bbishops, &b.Bknights, &b.Brooks, &b.Bqueens, &b.Bking}
+	b.Whites = [6]*Bitboard{&b.Wpawns, &b.Wbishops, &b.Wknights, &b.Wrooks, &b.Wqueens, &b.Wking}
+	b.AllPieces = [12]*Bitboard{
+		&b.Bpawns, &b.Bbishops, &b.Bknights,
+		&b.Brooks, &b.Bqueens, &b.Bking,
+		&b.Wpawns, &b.Wbishops, &b.Wknights,
+		&b.Wrooks, &b.Wqueens, &b.Wking,
+	}
+
+	b.StartPosition()
 
 	return &b
 }
