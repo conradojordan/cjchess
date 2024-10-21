@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/conradojordan/cjchess/board"
+	"github.com/conradojordan/cjchess/evaluation"
 )
 
 func main() {
@@ -11,5 +12,6 @@ func main() {
 
 	fmt.Println(b)
 	fmt.Println(b.Wpawns)
-	fmt.Println(b.Brooks)
+
+	fmt.Println("Current board evaluation is", evaluation.Evaluate(b))
 }
