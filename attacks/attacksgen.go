@@ -1,9 +1,13 @@
-package attacksgen
+package attacks
 
-func GenerateRookAttacks() [64]uint64 {
-	var result [64]uint64
-	var magicNumber uint64 = 0x101
-	var current uint64 = 0x0101_0101_0101_01fe
+import (
+	"github.com/conradojordan/cjchess/board"
+)
+
+func GenerateRookAttacks() [64]board.Bitboard {
+	var result [64]board.Bitboard
+	var magicNumber board.Bitboard = 0x101
+	var current board.Bitboard = 0x0101_0101_0101_01fe
 
 	for i := 0; i < 8; i++ {
 		for j := 0; j < 8; j++ {
@@ -16,7 +20,7 @@ func GenerateRookAttacks() [64]uint64 {
 	return result
 }
 
-func GenerateKnightAttacks() [64]uint64 {
+func GenerateKnightAttacks() [64]board.Bitboard {
 	// - - - - - - - -
 	// - a - b - - - -
 	// c - - - d - - -
@@ -25,9 +29,9 @@ func GenerateKnightAttacks() [64]uint64 {
 	// - g - h - - - -
 	// - - - - - - - -
 	// - - - - - - - -
-	var result [64]uint64
-	var current uint64
-	var a, b, c, d, e, f, g, h uint64
+	var result [64]board.Bitboard
+	var current board.Bitboard
+	var a, b, c, d, e, f, g, h board.Bitboard
 
 	for i := 0; i < 8; i++ {
 		for j := 0; j < 8; j++ {
@@ -87,11 +91,11 @@ func GenerateKnightAttacks() [64]uint64 {
 	return result
 }
 
-func GenerateBishopAttacks() [64]uint64 {
-	var result [64]uint64
-	var magicNumber uint64
-	var current uint64 = 0x8040_2010_0804_0200
-	var magicNumber2 uint64 = 0x0042_2418_1824_4280
+func GenerateBishopAttacks() [64]board.Bitboard {
+	var result [64]board.Bitboard
+	var magicNumber board.Bitboard
+	var current board.Bitboard = 0x8040_2010_0804_0200
+	var magicNumber2 board.Bitboard = 0x0042_2418_1824_4280
 
 	for i := 0; i < 8; i++ {
 		for j := 0; j < 8; j++ {
@@ -111,8 +115,8 @@ func GenerateBishopAttacks() [64]uint64 {
 	return result
 }
 
-func GenerateQueenAttacks() [64]uint64 {
-	var result [64]uint64
+func GenerateQueenAttacks() [64]board.Bitboard {
+	var result [64]board.Bitboard
 
 	r := GenerateRookAttacks()
 	b := GenerateBishopAttacks()
@@ -124,9 +128,9 @@ func GenerateQueenAttacks() [64]uint64 {
 	return result
 }
 
-func GenerateKingAttacks() [64]uint64 {
-	var result [64]uint64
-	var a, b uint64
+func GenerateKingAttacks() [64]board.Bitboard {
+	var result [64]board.Bitboard
+	var a, b board.Bitboard
 
 	for i := 0; i < 64; i++ {
 		a = 7 << (7 + i)
@@ -151,9 +155,9 @@ func GenerateKingAttacks() [64]uint64 {
 	return result
 }
 
-func GenerateWPawnAttacks() [64]uint64 {
-	var current, a, b uint64
-	var results [64]uint64
+func GenerateWPawnAttacks() [64]board.Bitboard {
+	var current, a, b board.Bitboard
+	var results [64]board.Bitboard
 
 	for i := 0; i < 64; i++ {
 		current = 0
@@ -176,9 +180,9 @@ func GenerateWPawnAttacks() [64]uint64 {
 	return results
 }
 
-func GenerateBPawnAttacks() [64]uint64 {
-	var current, a, b uint64
-	var results [64]uint64
+func GenerateBPawnAttacks() [64]board.Bitboard {
+	var current, a, b board.Bitboard
+	var results [64]board.Bitboard
 
 	for i := 0; i < 64; i++ {
 		current = 0
@@ -201,8 +205,8 @@ func GenerateBPawnAttacks() [64]uint64 {
 	return results
 }
 
-func GenerateWPawnMoves() [64]uint64 {
-	var result [64]uint64
+func GenerateWPawnMoves() [64]board.Bitboard {
+	var result [64]board.Bitboard
 
 	for i := 0; i < 56; i++ {
 		result[i] = 1 << (8 + i)
@@ -215,8 +219,8 @@ func GenerateWPawnMoves() [64]uint64 {
 	return result
 }
 
-func GenerateBPawnMoves() [64]uint64 {
-	var result [64]uint64
+func GenerateBPawnMoves() [64]board.Bitboard {
+	var result [64]board.Bitboard
 
 	for i := 8; i < 64; i++ {
 		result[i] = 1 << (i - 8)
