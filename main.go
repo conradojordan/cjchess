@@ -11,7 +11,6 @@ func main() {
 	b := board.NewBoard()
 
 	fmt.Println(b)
-	fmt.Println(b.Wpawns)
 
-	fmt.Println("Current board evaluation is", evaluation.Evaluate(b))
+	fmt.Println("\nCurrent board evaluation is", evaluation.Evaluate(b))
 }

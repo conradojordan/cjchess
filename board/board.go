@@ -54,16 +54,57 @@ type Board struct {
 }
 
 func (b Board) String() string {
-	var pieces Bitboard
+	var result strings.Builder
+	result.WriteString("   ABCDEFGH  \n")
 
-	for _, p := range b.AllPieces {
-		pieces ^= *p
+	for i := 0; i < 64; i++ {
+		current_bit := Bitboard(1 << (63 - i))
+		if i%8 == 0 {
+			result.WriteByte('\n')
+			result.WriteByte(byte((63-i)/8 + 49))
+			result.WriteString("  ")
+		}
+		switch {
+		// White pieces
+		case (b.Wpawns & current_bit) != 0:
+			result.WriteRune('P')
+		case (b.Wbishops & current_bit) != 0:
+			result.WriteRune('B')
+		case (b.Wknights & current_bit) != 0:
+			result.WriteRune('N')
+		case (b.Wrooks & current_bit) != 0:
+			result.WriteRune('R')
+		case (b.Wqueens & current_bit) != 0:
+			result.WriteRune('Q')
+		case (b.Wking & current_bit) != 0:
+			result.WriteRune('K')
+		// Black pieces
+		case (b.Bpawns & current_bit) != 0:
+			result.WriteRune('p')
+		case (b.Bbishops & current_bit) != 0:
+			result.WriteRune('b')
+		case (b.Bknights & current_bit) != 0:
+			result.WriteRune('n')
+		case (b.Brooks & current_bit) != 0:
+			result.WriteRune('r')
+		case (b.Bqueens & current_bit) != 0:
+			result.WriteRune('q')
+		case (b.Bking & current_bit) != 0:
+			result.WriteRune('k')
+		default:
+			result.WriteRune('.')
+		}
+
+		if i%8 == 7 {
+			result.WriteString("  ")
+			result.WriteByte(byte((63-i)/8 + 49))
+		}
 	}
-
-	return pieces.String()
+	result.WriteString("\n\n   ABCDEFGH  ")
+	return result.String()
 }
 
-func (b *Board) StartPosition() {
+func (b *Board) InitialPosition() {
 	b.Wpawns = 0x0000_0000_0000_ff00
 	b.Wbishops = 0x0000_0000_0000_0024
 	b.Wknights = 0x0000_0000_0000_0042
@@ -102,7 +143,7 @@ func NewBoard() *Board {
 		&b.Wrooks, &b.Wqueens, &b.Wking,
 	}
 
-	b.StartPosition()
+	b.InitialPosition()
 
 	return &b
 }
