@@ -21,68 +21,44 @@ func TestBoardInitialPosition(t *testing.T) {
 	board.InitialPosition()
 
 	// White pieces
-	t.Run("white pawns inital position", func(t *testing.T) {
-		if board.Wpawns != expected_Wpawns {
-			t.Errorf("white pawns are not in correct initial position: %v", board.Wpawns)
-		}
-	})
-	t.Run("white bishops inital position", func(t *testing.T) {
-		if board.Wbishops != expected_Wbishops {
-			t.Errorf("white bishops are not in correct initial position: %v", board.Wbishops)
-		}
-	})
-	t.Run("white knights inital position", func(t *testing.T) {
-		if board.Wknights != expected_Wknights {
-			t.Errorf("white knights are not in correct initial position: %v", board.Wknights)
-		}
-	})
-	t.Run("white rooks inital position", func(t *testing.T) {
-		if board.Wrooks != expected_Wrooks {
-			t.Errorf("white rooks are not in correct initial position: %v", board.Wrooks)
-		}
-	})
-	t.Run("white queens inital position", func(t *testing.T) {
-		if board.Wqueens != expected_Wqueens {
-			t.Errorf("white queens are not in correct initial position: %v", board.Wqueens)
-		}
-	})
-	t.Run("white king inital position", func(t *testing.T) {
-		if board.Wking != expected_Wking {
-			t.Errorf("white king are not in correct initial position: %v", board.Wking)
-		}
-	})
+	if board.Wpawns != expected_Wpawns {
+		t.Errorf("white pawns are not in correct initial position. Expected %v, got %v", expected_Wpawns, board.Wpawns)
+	}
+	if board.Wbishops != expected_Wbishops {
+		t.Errorf("white bishops are not in correct initial position. Expected %v, got %v", expected_Wbishops, board.Wbishops)
+	}
+	if board.Wknights != expected_Wknights {
+		t.Errorf("white knights are not in correct initial position. Expected %v, got %v", expected_Wknights, board.Wknights)
+	}
+	if board.Wrooks != expected_Wrooks {
+		t.Errorf("white rooks are not in correct initial position. Expected %v, got %v", expected_Wrooks, board.Wrooks)
+	}
+	if board.Wqueens != expected_Wqueens {
+		t.Errorf("white queens are not in correct initial position. Expected %v, got %v", expected_Wqueens, board.Wqueens)
+	}
+	if board.Wking != expected_Wking {
+		t.Errorf("white king are not in correct initial position. Expected %v, got %v", expected_Wking, board.Wking)
+	}
 
 	// Black pieces
-	t.Run("black pawns inital position", func(t *testing.T) {
-		if board.Bpawns != expected_Bpawns {
-			t.Errorf("black pawns are not in correct initial position: %v", board.Bpawns)
-		}
-	})
-	t.Run("black bishops inital position", func(t *testing.T) {
-		if board.Bbishops != expected_Bbishops {
-			t.Errorf("black bishops are not in correct initial position: %v", board.Bbishops)
-		}
-	})
-	t.Run("black knights inital position", func(t *testing.T) {
-		if board.Bknights != expected_Bknights {
-			t.Errorf("black knights are not in correct initial position: %v", board.Bknights)
-		}
-	})
-	t.Run("black rooks inital position", func(t *testing.T) {
-		if board.Brooks != expected_Brooks {
-			t.Errorf("black rooks are not in correct initial position: %v", board.Brooks)
-		}
-	})
-	t.Run("black queens inital position", func(t *testing.T) {
-		if board.Bqueens != expected_Bqueens {
-			t.Errorf("black queens are not in correct initial position: %v", board.Bqueens)
-		}
-	})
-	t.Run("black king inital position", func(t *testing.T) {
-		if board.Bking != expected_Bking {
-			t.Errorf("black king are not in correct initial position: %v", board.Bking)
-		}
-	})
+	if board.Bpawns != expected_Bpawns {
+		t.Errorf("black pawns are not in correct initial position. Expected %v, got %v", expected_Bpawns, board.Bpawns)
+	}
+	if board.Bbishops != expected_Bbishops {
+		t.Errorf("black bishops are not in correct initial position. Expected %v, got %v", expected_Bbishops, board.Bbishops)
+	}
+	if board.Bknights != expected_Bknights {
+		t.Errorf("black knights are not in correct initial position. Expected %v, got %v", expected_Bknights, board.Bknights)
+	}
+	if board.Brooks != expected_Brooks {
+		t.Errorf("black rooks are not in correct initial position. Expected %v, got %v", expected_Brooks, board.Brooks)
+	}
+	if board.Bqueens != expected_Bqueens {
+		t.Errorf("black queens are not in correct initial position. Expected %v, got %v", expected_Bqueens, board.Bqueens)
+	}
+	if board.Bking != expected_Bking {
+		t.Errorf("black king are not in correct initial position. Expected %v, got %v", expected_Bking, board.Bking)
+	}
 }
 
 func TestBoardStringRepresentation(t *testing.T) {
@@ -90,7 +66,7 @@ func TestBoardStringRepresentation(t *testing.T) {
 	board.InitialPosition()
 
 	got := board.String()
-	want := `   ABCDEFGH  
+	expected := `   ABCDEFGH  
 
 8  rnbqkbnr  8
 7  pppppppp  7
@@ -103,7 +79,7 @@ func TestBoardStringRepresentation(t *testing.T) {
 
    ABCDEFGH  `
 
-	if got != want {
-		t.Errorf("got: %s, want: %s", got, want)
+	if got != expected {
+		t.Errorf("Failed board string representation test. Expected %s, got %s", expected, got)
 	}
 }
